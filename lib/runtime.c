@@ -5,10 +5,6 @@
 #include <signal.h>
 #include <uv.h>
 
-#if !defined(_WIN32)
-#include <unistd.h>
-#endif
-
 #include "runtime.bundle.h"
 
 static uv_barrier_t bare__platform_ready;
