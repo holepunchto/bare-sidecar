@@ -1,0 +1,88 @@
+{
+  "name": "bare-sidecar",
+  "version": "0.1.0",
+  "description": "Start and manage Bare sidecar processes from Node.js and Electron",
+  "exports": {
+    "./package": "./package.json",
+    ".": "./index.js",
+    "./ipc": "./lib/ipc.js"
+  },
+  "imports": {
+    "#bare": {
+      "darwin": {
+        "arm64": "./prebuilds/darwin-arm64/bare",
+        "x64": "./prebuilds/darwin-x64/bare"
+      },
+      "linux": {
+        "arm64": "./prebuilds/linux-arm64/bare",
+        "x64": "./prebuilds/linux-x64/bare"
+      },
+      "win32": {
+        "arm64": "./prebuilds/win32-arm64/bare",
+        "x64": "./prebuilds/win32-x64/bare"
+      }
+    },
+    "child_process": {
+      "bare": "bare-subprocess",
+      "default": "child_process"
+    },
+    "fs": {
+      "bare": "bare-fs",
+      "default": "fs"
+    },
+    "os": {
+      "bare": "bare-os",
+      "default": "os"
+    },
+    "path": {
+      "bare": "bare-path",
+      "default": "path"
+    },
+    "stream": {
+      "bare": "bare-stream",
+      "default": "stream"
+    },
+    "url": {
+      "bare": "bare-url",
+      "default": "url"
+    }
+  },
+  "files": [
+    "index.js",
+    "CMakeLists.txt",
+    "lib",
+    "prebuilds"
+  ],
+  "scripts": {
+    "test": "prettier . --check && bare test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holepunchto/bare-sidecar.git"
+  },
+  "author": "Holepunch",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/holepunchto/bare-sidecar/issues"
+  },
+  "homepage": "https://github.com/holepunchto/bare-sidecar#readme",
+  "dependencies": {
+    "bare-fs": "^4.5.1",
+    "bare-module": "^6.1.3",
+    "bare-os": "^3.6.2",
+    "bare-path": "^3.0.0",
+    "bare-pipe": "^4.1.3",
+    "bare-stream": "^2.7.0",
+    "bare-subprocess": "^5.1.5",
+    "bare-url": "^2.3.2",
+    "require-asset": "^1.1.0"
+  },
+  "devDependencies": {
+    "brittle": "^3.18.0",
+    "cmake-bare": "^1.6.5",
+    "cmake-bare-bundle": "^3.0.0",
+    "cmake-fetch": "^1.4.0",
+    "prettier": "^3.4.1",
+    "prettier-config-holepunch": "^2.0.0"
+  }
+}
