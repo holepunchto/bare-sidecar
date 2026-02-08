@@ -4,6 +4,8 @@ const path = require('path')
 const prebuilds = path.join(__dirname, 'prebuilds')
 
 function makeExecutable(dir) {
+  if (!fs.existsSync(dir)) return
+
   for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
     const entry = path.join(dir, item.name)
 
