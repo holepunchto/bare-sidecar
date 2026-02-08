@@ -54,7 +54,8 @@
     "prebuilds"
   ],
   "scripts": {
-    "test": "prettier . --check && bare test.js"
+    "test": "prettier . --check && bare test.js",
+    "prepublish": "node prepublish.js"
   },
   "repository": {
     "type": "git",
