@@ -18,8 +18,8 @@
         "x64": "./prebuilds/linux-x64/bare"
       },
       "win32": {
-        "arm64": "./prebuilds/win32-arm64/bare",
-        "x64": "./prebuilds/win32-x64/bare"
+        "arm64": "./prebuilds/win32-arm64/bare.exe",
+        "x64": "./prebuilds/win32-x64/bare.exe"
       }
     },
     "child_process": {
