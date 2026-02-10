@@ -22,6 +22,9 @@
         "x64": "./prebuilds/win32-x64/bare.exe"
       }
     },
+    "#bare-universal": {
+      "darwin": "./prebuilds/darwin-universal/bare"
+    },
     "child_process": {
       "bare": "bare-subprocess",
       "default": "child_process"
@@ -49,6 +52,7 @@
   },
   "files": [
     "index.js",
+    "prepack.js",
     "CMakeLists.txt",
     "lib",
     "prebuilds"
