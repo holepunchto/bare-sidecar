@@ -6,7 +6,7 @@ find_package(cmake-fetch REQUIRED PATHS node_modules/cmake-fetch)
 
 project(bare_sidecar C)
 
-fetch_package("github:holepunchto/bare@1.26.0")
+fetch_package("github:holepunchto/bare@1.27.0")
 
 add_bare_bundle(
   bare_sidecar_bundle
