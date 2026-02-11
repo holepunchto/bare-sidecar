@@ -4,8 +4,7 @@
   "description": "Start and manage Bare sidecar processes from Node.js and Electron",
   "exports": {
     "./package": "./package.json",
-    ".": "./index.js",
-    "./ipc": "./lib/ipc.js"
+    ".": "./index.js"
   },
   "imports": {
     "#bare": {

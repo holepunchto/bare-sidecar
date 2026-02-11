@@ -1,3 +1,1 @@
-const IPC = require('bare-sidecar/ipc')
-
-IPC.on('data', (data) => IPC.write(data))
+Bare.IPC.on('data', (data) => Bare.IPC.write(data))
