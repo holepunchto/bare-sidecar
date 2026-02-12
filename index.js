@@ -42,4 +42,8 @@ module.exports = class Sidecar extends Duplex {
   _write(chunk, encoding, cb) {
     this._ipc.write(chunk, encoding, cb)
   }
+
+  kill (signal) {
+    this._process.kill(signal)
+  }
 }
