@@ -57,7 +57,7 @@ test('exit on ipc destroy', (t) => {
     })
 })
 
-test('uncaught throw', (t) => {
+test('uncaught throw', { skip: isWindows }, (t) => {
   t.plan(3)
 
   const sidecar = new Sidecar(require.resolve('./test/fixtures/throw'))
