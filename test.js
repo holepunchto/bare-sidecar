@@ -1,6 +1,8 @@
 const test = require('brittle')
 const Sidecar = require('bare-sidecar')
 
+const isWindows = Bare.platform === 'win32'
+
 test('basic', (t) => {
   t.plan(1)
 
@@ -16,8 +18,8 @@ test('kill on destroy', (t) => {
 
   sidecar
     .on('exit', (code, status) => {
-      t.is(code, 0)
-      t.not(status, 0)
+      t.is(code, isWindows ? 1 : 0)
+      t.is(status, 15)
     })
     .on('close', () => {
       t.pass('closed')
@@ -62,8 +64,8 @@ test('uncaught throw', (t) => {
 
   sidecar
     .on('exit', (code, status) => {
-      t.is(code, 0)
-      t.not(status, 0)
+      t.is(code, isWindows ? 3 : 0)
+      t.is(status, isWindows ? 0 : 6)
     })
     .on('close', () => {
       t.pass('closed')
