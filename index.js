@@ -15,11 +15,11 @@ module.exports = class Sidecar extends Duplex {
       stdio: ['pipe', 'pipe', 'pipe', 'overlapped']
     })
 
-    this._process.on('close', this._onclose.bind(this)).on('exit', this._onexit.bind(this))
+    this._process.on('exit', this._onexit.bind(this)).on('close', this._onclose.bind(this))
 
     const ipc = this._process.stdio[3]
 
-    this._ipc = ipc.on('end', this._onend.bind(this))
+    this._ipc = ipc.on('end', this._onend.bind(this)).on('error', this._onerror.bind(this))
   }
 
   get stdin() {
@@ -49,17 +49,21 @@ module.exports = class Sidecar extends Duplex {
     this._process.kill()
   }
 
-  _onend() {
-    this._ipc.end()
-
-    this.push(null)
+  _onexit(code, status) {
+    this.emit('exit', code, status)
   }
 
   _onclose() {
     this.end()
   }
 
-  _onexit(code, status) {
-    this.emit('exit', code, status)
+  _onend() {
+    this._ipc.end()
+
+    this.push(null)
+  }
+
+  _onerror(err) {
+    this.destroy(err)
   }
 }
