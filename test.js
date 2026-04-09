@@ -25,8 +25,8 @@ test('kill on destroy', (t) => {
 
   sidecar
     .on('exit', (code, status) => {
-      t.is(code, isWindows ? 1 : 0)
-      t.is(status, 15)
+      t.is(code, null)
+      t.is(status, 'SIGTERM')
     })
     .on('close', () => t.pass('closed'))
     .destroy()
@@ -40,7 +40,7 @@ test('exit on ipc close', (t) => {
   sidecar
     .on('exit', (code, status) => {
       t.is(code, 0)
-      t.is(status, 0)
+      t.is(status, null)
     })
     .on('close', () => t.pass('closed'))
 })
@@ -53,7 +53,7 @@ test('exit on ipc destroy', (t) => {
   sidecar
     .on('exit', (code, status) => {
       t.is(code, 0)
-      t.is(status, 0)
+      t.is(status, null)
     })
     .on('close', () => t.pass('closed'))
 })
@@ -65,8 +65,8 @@ test('uncaught throw', { skip: isWindows }, (t) => {
 
   sidecar
     .on('exit', (code, status) => {
-      t.is(code, isWindows ? 3 : 0)
-      t.is(status, isWindows ? 0 : 6)
+      t.is(code, null)
+      t.is(status, 'SIGABRT')
     })
     .on('close', () => t.pass('closed'))
 })
