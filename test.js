@@ -1,5 +1,5 @@
 const test = require('brittle')
-const { isWindows, isNode } = require('which-runtime')
+const { isWindows } = require('which-runtime')
 const Sidecar = require('bare-sidecar')
 
 test('basic', (t) => {
