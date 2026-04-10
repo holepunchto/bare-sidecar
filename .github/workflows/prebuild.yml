@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: holepunchto/actions/bare-base@v1
       - uses: holepunchto/actions/setup-llvm@v1
-      - run: choco install nasm
+      - uses: holepunchto/actions/setup-nasm@v1
         if: ${{ matrix.platform == 'win32' }}
       - uses: holepunchto/actions/compile-prebuilds@v1
         with:
