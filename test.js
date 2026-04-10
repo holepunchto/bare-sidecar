@@ -1,7 +1,6 @@
 const test = require('brittle')
+const { isWindows, isNode } = require('which-runtime')
 const Sidecar = require('bare-sidecar')
-
-const isWindows = Bare.platform === 'win32'
 
 test('basic', (t) => {
   t.plan(3)

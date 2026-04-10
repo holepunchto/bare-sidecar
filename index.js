@@ -45,8 +45,9 @@ module.exports = class Sidecar extends Duplex {
     this._ipc.write(chunk, encoding, cb)
   }
 
-  _predestroy() {
+  _destroy(err, cb) {
     this._process.kill()
+    cb()
   }
 
   _onexit(code, status) {
@@ -54,7 +55,7 @@ module.exports = class Sidecar extends Duplex {
   }
 
   _onclose() {
-    this.end()
+    this.destroy()
   }
 
   _onend() {
