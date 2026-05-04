@@ -24,6 +24,10 @@ target_sources(
     lib/runtime.bundle.h
 )
 
+if(WIN32)
+  target_sources(bare_sidecar PRIVATE lib/bare.manifest)
+endif()
+
 set_target_properties(
   bare_sidecar
   PROPERTIES
