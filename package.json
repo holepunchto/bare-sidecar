@@ -4,7 +4,10 @@
   "description": "Start and manage Bare sidecar processes from Node.js and Electron",
   "exports": {
     "./package": "./package.json",
-    ".": "./index.js"
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
   },
   "imports": {
     "#bare": {
@@ -40,10 +43,6 @@
       "bare": "bare-path",
       "default": "path"
     },
-    "stream": {
-      "bare": "bare-stream",
-      "default": "stream"
-    },
     "url": {
       "bare": "bare-url",
       "default": "url"
@@ -51,6 +50,7 @@
   },
   "files": [
     "index.js",
+    "index.d.ts",
     "prepack.js",
     "CMakeLists.txt",
     "lib",
