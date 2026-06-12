@@ -1,5 +1,5 @@
 const { spawn } = require('child_process')
-const { Duplex } = require('stream')
+const { Duplex } = require('bare-stream')
 const bare = require('./lib/bare')
 
 module.exports = class Sidecar extends Duplex {
