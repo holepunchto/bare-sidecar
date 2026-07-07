@@ -48,7 +48,7 @@ target_link_libraries(
 
 link_bare_module(bare_sidecar bare-module)
 link_bare_module(bare_sidecar bare-module-lexer)
-link_bare_module(bare_sidecar bare-os)
+link_bare_module(bare_sidecar bare-path)
 link_bare_module(bare_sidecar bare-pipe)
 link_bare_module(bare_sidecar bare-url)
 
