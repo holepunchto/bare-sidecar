@@ -1,7 +1,8 @@
 [
   { "addon": "bare-module" },
   { "addon": "bare-module-lexer" },
-  { "addon": "bare-os" },
+  { "addon": "bare-path" },
   { "addon": "bare-pipe" },
+  { "addon": "bare-type-stripper" },
   { "addon": "bare-url" }
 ]
