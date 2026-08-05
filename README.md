@@ -31,35 +31,69 @@ In the sidecar entry (`entry.js`), the IPC channel is available as a stream on `
 Bare.IPC.on('data', (data) => Bare.IPC.write(data))
 ```
 
+<!-- bare-refgen:api start -->
+
 ## API
 
-#### `const sidecar = new Sidecar(entry[, args][, options])`
+### Sidecar
+
+#### `new Sidecar(entry: string, args?: string[], opts?: SidecarOptions)`
 
 Spawn a bundled Bare runtime running `entry` and return a `Sidecar`. `entry` is the path to the module to run, typically resolved with `require.resolve()`. `args` is an array of additional command line arguments passed to the process. `options` is reserved for future use.
 
-`Sidecar` extends a duplex stream. Writing to the stream sends data to the sidecar over its IPC channel, and data received from the sidecar over the same channel is emitted as `'data'` events. Destroying the stream kills the sidecar process.
+Overloads:
 
-The correct prebuilt Bare binary for the current platform and architecture is selected automatically and made executable on first use.
+```ts
+new Sidecar(entry: string, args?: string[], opts?: SidecarOptions)
+new Sidecar(entry: string, opts?: SidecarOptions)
+```
 
-#### `sidecar.stdin`
+**Parameters**
 
-The writable standard input stream of the underlying process.
+| Parameter | Type             | Default | Description                                                                               |
+| --------- | ---------------- | ------- | ----------------------------------------------------------------------------------------- |
+| `entry`   | `string`         | —       | Path to the module the sidecar process runs, typically resolved with `require.resolve()`. |
+| `args?`   | `string[]`       | —       | Additional command-line arguments passed to the process (default `[]`).                   |
+| `opts?`   | `SidecarOptions` | —       | Reserved for future use.                                                                  |
 
-#### `sidecar.stdout`
-
-The readable standard output stream of the underlying process.
-
-#### `sidecar.stderr`
+#### `stderr: Pipe | null`
 
 The readable standard error stream of the underlying process.
 
-#### `event: 'exit'`
+#### `stdin: Pipe | null`
 
-Emitted when the sidecar process exits, with the arguments `code` and `status`. `code` is the exit code, or `null` if the process was terminated by a signal. `status` is the signal name that terminated the process, or `null` if it exited normally.
+The writable standard input stream of the underlying process.
 
-#### `event: 'close'`
+#### `stdout: Pipe | null`
 
-Emitted after the sidecar process has exited and the stream has been destroyed.
+The readable standard output stream of the underlying process.
+
+### Types
+
+#### `SidecarEvents`
+
+```ts
+interface SidecarEvents {
+  exit: [code: number | null, signalCode: string | null]
+  data: [data: unknown]
+  end: []
+  readable: []
+  piping: [dest: Writable]
+  close: []
+  error: [err: Error]
+  drain: []
+  finish: []
+  pipe: [src: Readable]
+}
+```
+
+#### `SidecarOptions`
+
+```ts
+interface SidecarOptions {}
+```
+
+<!-- bare-refgen:api end -->
 
 ## License
 
