@@ -33,7 +33,7 @@ Bare.IPC.on('data', (data) => Bare.IPC.write(data))
 
 ## API
 
-See the [full API reference](https://docs.pears.com/reference/bare/modules/bare-sidecar).
+See the [`bare-sidecar` reference](https://docs.pears.com/reference/bare/modules/bare-sidecar).
 
 ## License
 
