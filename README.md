@@ -31,69 +31,9 @@ In the sidecar entry (`entry.js`), the IPC channel is available as a stream on `
 Bare.IPC.on('data', (data) => Bare.IPC.write(data))
 ```
 
-<!-- bare-refgen:api start -->
-
 ## API
 
-### Sidecar
-
-#### `new Sidecar(entry: string, args?: string[], opts?: SidecarOptions)`
-
-Spawn a bundled Bare runtime running `entry` and return a `Sidecar`. `entry` is the path to the module to run, typically resolved with `require.resolve()`. `args` is an array of additional command line arguments passed to the process. `options` is reserved for future use.
-
-Overloads:
-
-```ts
-new Sidecar(entry: string, args?: string[], opts?: SidecarOptions)
-new Sidecar(entry: string, opts?: SidecarOptions)
-```
-
-**Parameters**
-
-| Parameter | Type             | Default | Description                                                                               |
-| --------- | ---------------- | ------- | ----------------------------------------------------------------------------------------- |
-| `entry`   | `string`         | —       | Path to the module the sidecar process runs, typically resolved with `require.resolve()`. |
-| `args?`   | `string[]`       | —       | Additional command-line arguments passed to the process (default `[]`).                   |
-| `opts?`   | `SidecarOptions` | —       | Reserved for future use.                                                                  |
-
-#### `stderr: Pipe | null`
-
-The readable standard error stream of the underlying process.
-
-#### `stdin: Pipe | null`
-
-The writable standard input stream of the underlying process.
-
-#### `stdout: Pipe | null`
-
-The readable standard output stream of the underlying process.
-
-### Types
-
-#### `SidecarEvents`
-
-```ts
-interface SidecarEvents {
-  exit: [code: number | null, signalCode: string | null]
-  data: [data: unknown]
-  end: []
-  readable: []
-  piping: [dest: Writable]
-  close: []
-  error: [err: Error]
-  drain: []
-  finish: []
-  pipe: [src: Readable]
-}
-```
-
-#### `SidecarOptions`
-
-```ts
-interface SidecarOptions {}
-```
-
-<!-- bare-refgen:api end -->
+See the [full API reference](https://docs.pears.com/reference/bare/modules/bare-sidecar).
 
 ## License
 
