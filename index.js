@@ -12,6 +12,7 @@ module.exports = class Sidecar extends Duplex {
     super()
 
     this._process = spawn(bare, [entry, ...args], {
+      detached: opts.detached,
       stdio: ['pipe', 'pipe', 'pipe', 'overlapped']
     })
 
