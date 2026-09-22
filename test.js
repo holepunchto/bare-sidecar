@@ -1,5 +1,5 @@
 const test = require('brittle')
-const { isWindows } = require('which-runtime')
+const { isWindows, isBare } = require('which-runtime')
 const Sidecar = require('bare-sidecar')
 
 test('basic', (t) => {
@@ -68,4 +68,19 @@ test('uncaught throw', { skip: isWindows }, (t) => {
       t.is(status, 'SIGABRT')
     })
     .on('close', () => t.pass('closed'))
+})
+
+test('detached leads its own process group', { skip: isWindows }, (t) => {
+  t.plan(4)
+
+  const kill = isBare ? require('bare-os').kill : process.kill.bind(process)
+
+  const attached = new Sidecar(require.resolve('./test/fixtures/sleep'))
+  const detached = new Sidecar(require.resolve('./test/fixtures/sleep'), { detached: true })
+
+  t.exception(() => kill(-attached._process.pid, 0), 'no group led by an attached sidecar')
+  t.execution(() => kill(-detached._process.pid, 0), 'a detached sidecar leads a group')
+
+  attached.on('close', () => t.pass('attached closed')).destroy()
+  detached.on('close', () => t.pass('detached closed')).destroy()
 })

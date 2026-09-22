@@ -5,7 +5,9 @@ interface SidecarEvents extends DuplexEvents {
   exit: [code: number | null, signalCode: string | null]
 }
 
-interface SidecarOptions {}
+interface SidecarOptions {
+  detached?: boolean
+}
 
 interface Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {
   /** The writable standard input stream of the underlying process. */
@@ -21,7 +23,7 @@ declare class Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M>
    * @param entry - Path to the module the sidecar process runs, typically resolved with
    * `require.resolve()`.
    * @param args - Additional command-line arguments passed to the process (default `[]`).
-   * @param opts - Reserved for future use.
+   * @param opts - Spawn options, see `SidecarOptions`.
    */
   constructor(entry: string, args?: string[], opts?: SidecarOptions)
   constructor(entry: string, opts?: SidecarOptions)
@@ -30,7 +32,7 @@ declare class Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M>
 /**
  * Spawn a bundled Bare runtime running `entry` and return a `Sidecar`. `entry` is the path to the
  * module to run, typically resolved with `require.resolve()`. `args` is an array of additional
- * command line arguments passed to the process. `options` is reserved for future use.
+ * command line arguments passed to the process. `options` controls how the process is spawned.
  */
 declare namespace Sidecar {
   export { type SidecarEvents, type SidecarOptions, Sidecar }
