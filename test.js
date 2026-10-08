@@ -57,6 +57,36 @@ test('exit on ipc destroy', (t) => {
     .on('close', () => t.pass('closed'))
 })
 
+test('stdio ignore does not block on large output', (t) => {
+  t.plan(3)
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/log'), { stdio: 'ignore' })
+
+  t.is(sidecar.stdout, null)
+
+  sidecar
+    .on('close', () => t.pass('closed'))
+    .on('data', (data) => {
+      t.is(data.toString(), 'Hello world')
+      sidecar.destroy()
+    })
+    .write('Hello world')
+})
+
+test('stdio per stream', (t) => {
+  t.plan(4)
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/sleep'), {
+    stdio: ['ignore', 'pipe']
+  })
+
+  t.is(sidecar.stdin, null)
+  t.ok(sidecar.stdout)
+  t.ok(sidecar.stderr)
+
+  sidecar.on('close', () => t.pass('closed')).destroy()
+})
+
 test('uncaught throw', { skip: isWindows }, (t) => {
   t.plan(3)
 

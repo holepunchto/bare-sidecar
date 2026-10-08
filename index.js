@@ -11,9 +11,15 @@ module.exports = class Sidecar extends Duplex {
 
     super()
 
+    let { stdio = 'pipe' } = opts
+
+    if (typeof stdio === 'string') stdio = [stdio, stdio, stdio]
+
+    stdio = [0, 1, 2].map((i) => stdio[i] || 'pipe')
+
     this._process = spawn(bare, [entry, ...args], {
       detached: opts.detached,
-      stdio: ['pipe', 'pipe', 'pipe', 'overlapped']
+      stdio: [...stdio, 'overlapped']
     })
 
     this._process.on('exit', this._onexit.bind(this)).on('close', this._onclose.bind(this))

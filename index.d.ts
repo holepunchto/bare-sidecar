@@ -5,8 +5,16 @@ interface SidecarEvents extends DuplexEvents {
   exit: [code: number | null, signalCode: string | null]
 }
 
+type SidecarStdio = 'pipe' | 'inherit' | 'ignore'
+
 interface SidecarOptions {
   detached?: boolean
+  /**
+   * How to set up standard input, output, and error of the underlying process, either for all
+   * three at once or per stream (default `'pipe'`). Piped output must be read, or the sidecar
+   * will block once the pipe buffer fills.
+   */
+  stdio?: SidecarStdio | [stdin?: SidecarStdio, stdout?: SidecarStdio, stderr?: SidecarStdio]
 }
 
 interface Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {
@@ -35,7 +43,7 @@ declare class Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M>
  * command line arguments passed to the process. `options` controls how the process is spawned.
  */
 declare namespace Sidecar {
-  export { type SidecarEvents, type SidecarOptions, Sidecar }
+  export { type SidecarEvents, type SidecarOptions, type SidecarStdio, Sidecar }
 }
 
 export = Sidecar
