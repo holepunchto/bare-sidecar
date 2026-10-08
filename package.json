@@ -85,7 +85,7 @@
     "require-asset": "^1.1.0"
   },
   "devDependencies": {
-    "brittle": "^3.18.0",
+    "brittle": "^4.4.0",
     "cmake-bare": "^1.6.5",
     "cmake-bare-bundle": "^3.0.0",
     "cmake-fetch": "^1.4.0",
