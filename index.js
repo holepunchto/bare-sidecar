@@ -1,4 +1,5 @@
 const { spawn } = require('child_process')
+const { fileURLToPath } = require('url')
 const { Duplex } = require('bare-stream')
 const bare = require('./lib/bare')
 
@@ -10,6 +11,8 @@ module.exports = class Sidecar extends Duplex {
     }
 
     super()
+
+    if (typeof entry !== 'string') entry = fileURLToPath(entry)
 
     let { stdio = 'pipe' } = opts
 

@@ -1,3 +1,4 @@
+import URL from 'bare-url'
 import Pipe from 'bare-pipe'
 import { Duplex, DuplexEvents } from 'bare-stream'
 
@@ -28,18 +29,18 @@ interface Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {
 
 declare class Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {
   /**
-   * @param entry - Path to the module the sidecar process runs, typically resolved with
-   * `require.resolve()`.
+   * @param entry - Path or `file:` URL of the module the sidecar process runs, typically resolved
+   * with `require.resolve()` or `import.meta.resolve()`.
    * @param args - Additional command-line arguments passed to the process (default `[]`).
    * @param opts - Spawn options, see `SidecarOptions`.
    */
-  constructor(entry: string, args?: string[], opts?: SidecarOptions)
-  constructor(entry: string, opts?: SidecarOptions)
+  constructor(entry: string | URL, args?: string[], opts?: SidecarOptions)
+  constructor(entry: string | URL, opts?: SidecarOptions)
 }
 
 /**
- * Spawn a bundled Bare runtime running `entry` and return a `Sidecar`. `entry` is the path to the
- * module to run, typically resolved with `require.resolve()`. `args` is an array of additional
+ * Spawn a bundled Bare runtime running `entry` and return a `Sidecar`. `entry` is the path or
+ * `file:` URL of the module to run, typically resolved with `require.resolve()`. `args` is an array of additional
  * command line arguments passed to the process. `options` controls how the process is spawned.
  */
 declare namespace Sidecar {

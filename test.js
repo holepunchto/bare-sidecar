@@ -1,5 +1,6 @@
 const test = require('brittle')
 const { isWindows, isBare } = require('which-runtime')
+const { pathToFileURL } = require('url')
 const Sidecar = require('bare-sidecar')
 
 test('basic', (t) => {
@@ -10,6 +11,19 @@ test('basic', (t) => {
   sidecar
     .on('exit', () => t.pass('exited'))
     .on('close', () => t.pass('closed'))
+    .on('data', (data) => {
+      t.is(data.toString(), 'Hello world')
+      sidecar.destroy()
+    })
+    .write('Hello world')
+})
+
+test('file: URL entry', (t) => {
+  t.plan(1)
+
+  const sidecar = new Sidecar(pathToFileURL(require.resolve('./test/fixtures/echo')))
+
+  sidecar
     .on('data', (data) => {
       t.is(data.toString(), 'Hello world')
       sidecar.destroy()
