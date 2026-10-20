@@ -20,6 +20,8 @@ module.exports = class Sidecar extends Duplex {
 
     stdio = [0, 1, 2].map((i) => stdio[i] || 'pipe')
 
+    this._exited = false
+
     this._process = spawn(bare, [entry, ...args], {
       detached: opts.detached,
       stdio: [...stdio, 'overlapped']
@@ -44,6 +46,10 @@ module.exports = class Sidecar extends Duplex {
     return this._process.stderr
   }
 
+  kill(signal) {
+    return this._process.kill(signal)
+  }
+
   _read() {
     const data = this._ipc.read()
 
@@ -56,11 +62,14 @@ module.exports = class Sidecar extends Duplex {
   }
 
   _destroy(err, cb) {
-    this._process.kill()
-    cb()
+    if (this._exited) return cb(err)
+
+    this._process.once('exit', () => cb(err)).kill()
   }
 
   _onexit(code, status) {
+    this._exited = true
+
     this.emit('exit', code, status)
   }
 
