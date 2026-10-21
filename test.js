@@ -79,6 +79,21 @@ test('destroy waits for the process to exit', { skip: isWindows }, (t) => {
     })
 })
 
+test('exit with unread data', (t) => {
+  t.plan(3)
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/exit'))
+
+  sidecar
+    .on('error', (err) => t.fail(err.message))
+    .on('exit', (code, status) => {
+      t.is(code, 3)
+      t.is(status, null)
+    })
+    .on('close', () => t.pass('closed'))
+    .write('Hello world')
+})
+
 test('exit on ipc close', (t) => {
   t.plan(3)
 
