@@ -84,6 +84,10 @@ module.exports = class Sidecar extends Duplex {
   }
 
   _onerror(err) {
+    // On Linux, a process that exits with data still unread resets the IPC
+    // connection rather than ending it, which its exit already accounts for.
+    if (err.code === 'ECONNRESET') return
+
     this.destroy(err)
   }
 }
