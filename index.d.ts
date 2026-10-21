@@ -25,6 +25,14 @@ interface Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {
   readonly stdout: Pipe | null
   /** The readable standard error stream of the underlying process. */
   readonly stderr: Pipe | null
+
+  /**
+   * Send `signal` to the underlying process, such as `'SIGKILL'` to force down a sidecar that
+   * `destroy()` is still waiting on. The sidecar closes once the process has exited.
+   * @param signal - The signal to send, by name or number (default `'SIGTERM'`).
+   * @returns Whether the signal was sent.
+   */
+  kill(signal?: string | number): boolean
 }
 
 declare class Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {

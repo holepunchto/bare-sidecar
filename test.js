@@ -45,6 +45,40 @@ test('kill on destroy', (t) => {
     .destroy()
 })
 
+test('kill with signal', (t) => {
+  t.plan(3)
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/sleep'))
+
+  sidecar
+    .on('exit', (code, status) => {
+      t.is(code, null)
+      t.is(status, 'SIGKILL')
+    })
+    .on('close', () => t.pass('closed'))
+    .kill('SIGKILL')
+})
+
+test('destroy waits for the process to exit', { skip: isWindows }, (t) => {
+  t.plan(3)
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/ignore-sigterm'))
+
+  let killed = false
+
+  sidecar
+    .on('exit', (code, status) => t.is(status, 'SIGKILL'))
+    .on('close', () => t.ok(killed, 'closed only once killed'))
+    .once('data', () => {
+      sidecar.destroy()
+
+      setTimeout(() => {
+        killed = true
+        t.ok(sidecar.kill('SIGKILL'))
+      }, 100)
+    })
+})
+
 test('exit on ipc close', (t) => {
   t.plan(3)
 
