@@ -58,7 +58,11 @@ module.exports = class Sidecar extends Duplex {
   }
 
   _write(chunk, encoding, cb) {
-    this._ipc.write(chunk, encoding, (err) => cb(isClosedByProcess(err) ? null : err))
+    this._ipc.write(chunk, encoding, (err) => {
+      // Writes to an IPC connection that is already destroyed fail too, which
+      // either the process closing it or the error destroying it accounts for.
+      cb(isClosedByProcess(err) || this._ipc.destroyed ? null : err)
+    })
   }
 
   _destroy(err, cb) {
