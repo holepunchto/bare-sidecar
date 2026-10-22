@@ -94,6 +94,24 @@ test('exit with unread data', (t) => {
     .write('Hello world')
 })
 
+test('exit after ipc destroy while writing', (t) => {
+  t.plan(3)
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/ipc-destroy-exit'))
+
+  const writes = setInterval(() => sidecar.write('Hello world'), 10)
+
+  sidecar
+    .on('error', (err) => t.fail(err.message))
+    .on('exit', (code, status) => {
+      clearInterval(writes)
+
+      t.is(code, 3)
+      t.is(status, null)
+    })
+    .on('close', () => t.pass('closed'))
+})
+
 test('exit on ipc close', (t) => {
   t.plan(3)
 

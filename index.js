@@ -58,7 +58,7 @@ module.exports = class Sidecar extends Duplex {
   }
 
   _write(chunk, encoding, cb) {
-    this._ipc.write(chunk, encoding, cb)
+    this._ipc.write(chunk, encoding, (err) => cb(isClosedByProcess(err) ? null : err))
   }
 
   _destroy(err, cb) {
@@ -84,10 +84,15 @@ module.exports = class Sidecar extends Duplex {
   }
 
   _onerror(err) {
-    // On Linux, a process that exits with data still unread resets the IPC
-    // connection rather than ending it, which its exit already accounts for.
-    if (err.code === 'ECONNRESET') return
+    if (isClosedByProcess(err)) return
 
     this.destroy(err)
   }
+}
+
+// A process that closes its end of the IPC connection, such as while exiting,
+// fails writes with EPIPE or, on Linux with data still unread, resets the
+// connection with ECONNRESET. Either way its exit already accounts for it.
+function isClosedByProcess(err) {
+  return err?.code === 'EPIPE' || err?.code === 'ECONNRESET'
 }
