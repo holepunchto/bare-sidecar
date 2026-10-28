@@ -6,7 +6,7 @@ find_package(cmake-fetch REQUIRED PATHS node_modules/cmake-fetch)
 
 project(bare_sidecar C)
 
-fetch_package("github:holepunchto/bare@1.34.1")
+fetch_package("github:holepunchto/bare@1.36.0")
 
 add_bare_bundle(
   bare_sidecar_bundle
@@ -46,10 +46,12 @@ target_link_libraries(
     rlimit_static
 )
 
+link_bare_module(bare_sidecar bare-hrtime)
 link_bare_module(bare_sidecar bare-module)
 link_bare_module(bare_sidecar bare-module-lexer)
 link_bare_module(bare_sidecar bare-path)
 link_bare_module(bare_sidecar bare-pipe)
+link_bare_module(bare_sidecar bare-type)
 link_bare_module(bare_sidecar bare-url)
 
 bare_target(target)
