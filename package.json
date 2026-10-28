@@ -1,6 +1,6 @@
 {
   "name": "bare-sidecar",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "description": "Start and manage Bare sidecar processes from Node.js and Electron",
   "exports": {
     "./package": "./package.json",
