@@ -16,10 +16,10 @@ jobs:
           - os: ubuntu-22.04-arm
             platform: linux
             arch: arm64
-          - os: macos-14
+          - os: macos-15
             platform: darwin
             arch: x64
-          - os: macos-14
+          - os: macos-15
             platform: darwin
             arch: arm64
           - os: windows-2022
@@ -49,5 +49,7 @@ jobs:
     steps:
       - uses: holepunchto/actions/node-base@v1
       - uses: holepunchto/actions/download-prebuilds@v1
-      - run: npm run prepack
+      - uses: holepunchto/actions/run-npm-script@v1
+        with:
+          script: prepack
       - uses: holepunchto/actions/publish@v1
