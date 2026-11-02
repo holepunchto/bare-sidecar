@@ -31,6 +31,19 @@ test('file: URL entry', (t) => {
     .write('Hello world')
 })
 
+test('load addon', (t) => {
+  t.plan(1)
+
+  const os = require('os')
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/addon'))
+
+  sidecar.on('data', (data) => {
+    t.is(data.toString(), os.platform() + '-' + os.arch())
+    sidecar.destroy()
+  })
+})
+
 test('kill on destroy', (t) => {
   t.plan(3)
 

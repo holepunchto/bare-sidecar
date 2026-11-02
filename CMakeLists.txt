@@ -6,7 +6,7 @@ find_package(cmake-fetch REQUIRED PATHS node_modules/cmake-fetch)
 
 project(bare_sidecar C)
 
-fetch_package("github:holepunchto/bare@1.36.0")
+fetch_package("github:holepunchto/bare@1.36.2")
 
 add_bare_bundle(
   bare_sidecar_bundle
@@ -35,16 +35,30 @@ set_target_properties(
   POSITION_INDEPENDENT_CODE ON
   OUTPUT_NAME bare
   ENABLE_EXPORTS ON
-  WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
 
 target_link_libraries(
   bare_sidecar
   PUBLIC
-    $<LINK_LIBRARY:WHOLE_ARCHIVE,bare_static>
+    $<LINK_LIBRARY:WHOLE_ARCHIVE,bare::static>
   PRIVATE
+    bare::exports
     rlimit_static
 )
+
+if(APPLE)
+  target_link_options(
+    bare_sidecar
+    PRIVATE
+      $<$<CONFIG:Release>:-Wl,-dead_strip,-S,-x>
+  )
+elseif(LINUX)
+  target_link_options(
+    bare_sidecar
+    PRIVATE
+      $<$<CONFIG:Release>:-Wl,--gc-sections,--strip-all>
+  )
+endif()
 
 link_bare_module(bare_sidecar bare-hrtime)
 link_bare_module(bare_sidecar bare-module)

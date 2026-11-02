@@ -85,6 +85,7 @@
     "require-asset": "^1.1.0"
   },
   "devDependencies": {
+    "bare-os": "^3.9.3",
     "bare-signals": "^5.0.0",
     "brittle": "^4.4.0",
     "cmake-bare": "^1.6.5",
