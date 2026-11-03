@@ -208,3 +208,14 @@ test('detached leads its own process group', { skip: isWindows }, (t) => {
   attached.on('close', () => t.pass('attached closed')).destroy()
   detached.on('close', () => t.pass('detached closed')).destroy()
 })
+
+test('versions match the bundled runtime', (t) => {
+  t.plan(1)
+
+  const sidecar = new Sidecar(require.resolve('./test/fixtures/version'))
+
+  sidecar.on('data', (data) => {
+    t.is(data.toString(), 'v' + Sidecar.versions.bare)
+    sidecar.destroy()
+  })
+})

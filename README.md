@@ -31,6 +31,16 @@ In the sidecar entry (`entry.js`), the IPC channel is available as a stream on `
 Bare.IPC.on('data', (data) => Bare.IPC.write(data))
 ```
 
+### Versions
+
+`Sidecar.versions` holds the versions of the components bundled with the sidecar, such as the Bare runtime:
+
+```js
+Sidecar.versions.bare // '1.36.2'
+```
+
+The same versions are available as JSON from `bare-sidecar/versions`.
+
 ## API
 
 See the [`bare-sidecar` reference](https://docs.pears.com/reference/bare/modules/bare-sidecar).
