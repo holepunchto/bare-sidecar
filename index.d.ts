@@ -6,6 +6,11 @@ interface SidecarEvents extends DuplexEvents {
   exit: [code: number | null, signalCode: string | null]
 }
 
+interface SidecarVersions {
+  /** The version of the bundled Bare runtime. */
+  readonly bare: string
+}
+
 type SidecarStdio = 'pipe' | 'inherit' | 'ignore'
 
 interface SidecarOptions {
@@ -36,6 +41,9 @@ interface Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {
 }
 
 declare class Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M> {
+  /** The versions of the components bundled with the sidecar, such as the Bare runtime. */
+  static readonly versions: SidecarVersions
+
   /**
    * @param entry - Path or `file:` URL of the module the sidecar process runs, typically resolved
    * with `require.resolve()` or `import.meta.resolve()`.
@@ -52,7 +60,13 @@ declare class Sidecar<M extends SidecarEvents = SidecarEvents> extends Duplex<M>
  * command line arguments passed to the process. `options` controls how the process is spawned.
  */
 declare namespace Sidecar {
-  export { type SidecarEvents, type SidecarOptions, type SidecarStdio, Sidecar }
+  export {
+    type SidecarEvents,
+    type SidecarOptions,
+    type SidecarStdio,
+    type SidecarVersions,
+    Sidecar
+  }
 }
 
 export = Sidecar

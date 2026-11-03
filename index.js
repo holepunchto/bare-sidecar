@@ -4,6 +4,8 @@ const { Duplex } = require('bare-stream')
 const bare = require('./lib/bare')
 
 module.exports = class Sidecar extends Duplex {
+  static versions = Object.freeze(require('./versions.json'))
+
   constructor(entry, args = [], opts = {}) {
     if (!Array.isArray(args)) {
       opts = args

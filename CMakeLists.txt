@@ -6,7 +6,13 @@ find_package(cmake-fetch REQUIRED PATHS node_modules/cmake-fetch)
 
 project(bare_sidecar C)
 
-fetch_package("github:holepunchto/bare@1.36.2")
+file(READ "${CMAKE_CURRENT_LIST_DIR}/versions.json" versions)
+
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/versions.json")
+
+string(JSON bare_version GET "${versions}" bare)
+
+fetch_package("github:holepunchto/bare@${bare_version}")
 
 add_bare_bundle(
   bare_sidecar_bundle

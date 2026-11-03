@@ -7,7 +7,8 @@
     ".": {
       "types": "./index.d.ts",
       "default": "./index.js"
-    }
+    },
+    "./versions": "./versions.json"
   },
   "imports": {
     "#bare": {
@@ -51,6 +52,7 @@
   "files": [
     "index.js",
     "index.d.ts",
+    "versions.json",
     "prepack.js",
     "CMakeLists.txt",
     "lib",
