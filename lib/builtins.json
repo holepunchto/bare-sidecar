@@ -4,6 +4,7 @@
   { "addon": "bare-module-lexer" },
   { "addon": "bare-path" },
   { "addon": "bare-pipe" },
+  { "addon": "bare-sleep" },
   { "addon": "bare-type" },
   { "addon": "bare-type-stripper" },
   { "addon": "bare-url" }
