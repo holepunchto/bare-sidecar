@@ -66,6 +66,7 @@ elseif(LINUX)
   )
 endif()
 
+link_bare_module(bare_sidecar bare-buffer)
 link_bare_module(bare_sidecar bare-hrtime)
 link_bare_module(bare_sidecar bare-module)
 link_bare_module(bare_sidecar bare-module-lexer)

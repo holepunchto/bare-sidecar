@@ -1,4 +1,5 @@
 [
+  { "addon": "bare-buffer" },
   { "addon": "bare-hrtime" },
   { "addon": "bare-module" },
   { "addon": "bare-module-lexer" },
