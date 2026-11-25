@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 4.0)
 find_package(cmake-bare REQUIRED PATHS node_modules/cmake-bare)
 find_package(cmake-bare-bundle REQUIRED PATHS node_modules/cmake-bare-bundle)
 find_package(cmake-fetch REQUIRED PATHS node_modules/cmake-fetch)
+find_package(cmake-prelude REQUIRED PATHS node_modules/cmake-prelude)
 
 project(bare_sidecar C)
 
@@ -14,6 +15,8 @@ string(JSON bare_version GET "${versions}" bare)
 
 fetch_package("github:holepunchto/bare@${bare_version}")
 
+bare_target(target)
+
 add_bare_bundle(
   bare_sidecar_bundle
   ENTRY lib/runtime.js
@@ -21,62 +24,34 @@ add_bare_bundle(
   BUILTINS lib/builtins.json
 )
 
-add_executable(bare_sidecar)
-
-target_sources(
-  bare_sidecar
-  PRIVATE
-    lib/runtime.c
-    lib/runtime.bundle.h
+set(sources
+  lib/runtime.c
+  lib/runtime.bundle.h
 )
 
 if(WIN32)
-  target_sources(bare_sidecar PRIVATE lib/bare.manifest)
+  list(APPEND sources lib/bare.manifest)
 endif()
+
+add_executable_target(
+  bare_sidecar
+  SOURCES
+    ${sources}
+  FEATURES
+    c_std_99
+  LINK
+    $<LINK_LIBRARY:WHOLE_ARCHIVE,bare::static>
+    bare::exports
+    rlimit::static
+  DESTINATION
+    ${target}
+  EXPORT OFF
+)
 
 set_target_properties(
-  bare_sidecar
+  bare_sidecar_executable
   PROPERTIES
-  C_STANDARD 99
-  POSITION_INDEPENDENT_CODE ON
   OUTPUT_NAME bare
-  ENABLE_EXPORTS ON
 )
 
-target_link_libraries(
-  bare_sidecar
-  PUBLIC
-    $<LINK_LIBRARY:WHOLE_ARCHIVE,bare::static>
-  PRIVATE
-    bare::exports
-    rlimit_static
-)
-
-if(APPLE)
-  target_link_options(
-    bare_sidecar
-    PRIVATE
-      $<$<CONFIG:Release>:-Wl,-dead_strip,-S,-x>
-  )
-elseif(LINUX)
-  target_link_options(
-    bare_sidecar
-    PRIVATE
-      $<$<CONFIG:Release>:-Wl,--gc-sections,--strip-all>
-  )
-endif()
-
-link_bare_module(bare_sidecar bare-buffer)
-link_bare_module(bare_sidecar bare-hrtime)
-link_bare_module(bare_sidecar bare-module)
-link_bare_module(bare_sidecar bare-module-lexer)
-link_bare_module(bare_sidecar bare-path)
-link_bare_module(bare_sidecar bare-pipe)
-link_bare_module(bare_sidecar bare-sleep)
-link_bare_module(bare_sidecar bare-type)
-link_bare_module(bare_sidecar bare-type-stripper)
-link_bare_module(bare_sidecar bare-url)
-
-bare_target(target)
-
-install(TARGETS bare_sidecar RUNTIME DESTINATION ${target})
+link_bare_modules(bare_sidecar::executable FROM lib/builtins.json EXCLUDE_FROM bare::static)
