@@ -93,7 +93,7 @@
     "cmake-bare": "^1.19.1",
     "cmake-bare-bundle": "^3.2.0",
     "cmake-fetch": "^1.5.5",
-    "cmake-prelude": "^0.1.12",
+    "cmake-prelude": "^0.1.16",
     "lunte": "^1.6.0",
     "prettier": "^3.4.1",
     "prettier-config-holepunch": "^2.0.0",
